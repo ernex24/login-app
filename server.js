@@ -7,7 +7,7 @@ const User = require('./model/user.js')
 
 const app = express()
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json({ extended: false}))
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 

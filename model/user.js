@@ -17,6 +17,10 @@ var mongoose = require('mongoose');
         type: String,
         required: true,
         minLength: 7
+    },
+    date: {
+        type: Date,
+        default: Date.now
     }
   });
 
