@@ -74,6 +74,8 @@ router.get('/all/latest', async (req, res) => {
 });
 
 
+
+
 // @route    GET api/ad/all/me
 // @desc     Get all my ads date descendant
 // @access   Private
@@ -103,10 +105,10 @@ router.get('/all/older', async (req, res) => {
   }
 });
 
-// @route    GET api/ad/:category/latest
+// @route    GET api/ad/:category
 // @desc     Get all ads in a category date descendant
 // @access   Public
-router.get('/:category/latest', async (req, res) => {
+router.get('/:category', async (req, res) => {
   try {
     const ads = await Ad.find({ category: req.params.category }).populate('user', ['name', 'email']).populate('profile', ['phone']).sort({ date: -1 });
     res.json(ads);
@@ -142,25 +144,25 @@ router.get('/:category/older', async (req, res) => {
   }
 });
 
-// @route    GET api/ad/:id
-// @desc     Get ad by ID
-// @access   Private
-router.get('/:id', auth, async (req, res) => {
-  try {
-    const ad = await Post.findById(req.params.id);
 
+// @route    GET api/ad/:id
+// @desc     Get post by ID
+// @access   Private
+router.get('/find/:id', async (req, res) => {
+  try {
+    const ads = await Ad.findById(req.params.id).populate('user', ['name', 'email']);
+    console.log(req.params.id)
     // Check for ObjectId format and post
-    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !post) {
+    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !ads) {
       return res.status(404).json({ msg: 'Post not found' });
     }
-
-    res.json(ad);
+    res.json(ads);
   } catch (err) {
     console.error(err.message);
-
     res.status(500).send('Server Error');
   }
 });
+
 
 
 // @route    DELETE api/ad/:id

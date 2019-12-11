@@ -1,0 +1,5 @@
+GET http://localhost:5000/api/ad/all/latest
+
+######
+
+GET http://localhost:5000/api/ad/find/5defbf902402a249c85c037c
