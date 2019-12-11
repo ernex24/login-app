@@ -7,6 +7,10 @@ require('dotenv').config();
 
 const auth = require('../middleware/auth.js')
 
+
+const Profile = require('../model/profile');
+
+
 const router = express.Router();
 
 // @route    GET /auth
@@ -23,7 +27,7 @@ router.get('/auth', auth, async (req, res) => {
   });
 
 
-// @route    GET /register
+// @route    GET /api/register
 // @desc     Register
 // @access   Public
 router.post(

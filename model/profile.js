@@ -3,12 +3,18 @@ const mongoose = require('mongoose');
 const ProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'User'
+  },
+  image: {
+    type: String
   },
   country: {
     type: String
   },
   city: {
+    type: String
+  },
+  postalcode: {
     type: String
   },
   bio: {
@@ -36,5 +42,5 @@ const ProfileSchema = new mongoose.Schema({
     default: Date.now
   }
 });
-
-module.exports = Profile = mongoose.model('profile', ProfileSchema);
+const Profile = mongoose.model('Profile', ProfileSchema)
+module.exports = Profile

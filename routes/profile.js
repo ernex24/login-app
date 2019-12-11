@@ -5,29 +5,8 @@ const { check, validationResult } = require('express-validator');
 const request = require('request');
 
 const Profile = require('../model/profile');
-const user = require('../model/user');
+const User = require('../model/user');
 
-// @route    GET api/profile/me
-// @desc     Get current users profile
-// @access   Private
-router.get('/me', auth, async (req, res) => {
-    try {
-      const profile = await Profile.findOne({ user: req.user.id }).populate(
-        'user',
-        ['name', 'email']
-      );
-  
-      if (!profile) {
-        return res.status(400).json({ msg: 'There is no profile for this user' });
-      }
-  
-      res.json(profile);
-
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
-  });
 
 // @route    POST api/profile
 // @desc     Create or update user profile
@@ -55,8 +34,10 @@ router.post(
       }
   
       const {
+        image,
         country,
         city,
+        postalcode,
         bio,
         phone,
         facebook,
@@ -69,7 +50,9 @@ router.post(
       const profileFields = {};
       profileFields.user = req.user.id;
       if (country) profileFields.country = country;
+      if (image) profileFields.image = image;
       if (city) profileFields.city = city;
+      if (postalcode) profileFields.postalcode = postalcode;
       if (phone) profileFields.phone = phone;
       if (bio) profileFields.bio = bio;
   
@@ -95,12 +78,31 @@ router.post(
     }
   );
 
-  // @route    GET api/profile
+// @route    GET api/profile/me
+// @desc     Get current users profile
+// @access   Private
+router.get('/me', auth, async (req, res) => {
+    try {
+      const profile = await Profile.find({ user: req.user.id }).populate('user', '-password')
+  
+      if (!profile) {
+        return res.status(400).json({ msg: 'There is no profile for this user' });
+      }
+  
+      res.json(profile);
+
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  });
+
+// @route    GET api/profile
 // @desc     Get all profiles
 // @access   Public
 router.get('/', async (req, res) => {
     try {
-      const profiles = await Profile.find().populate('User', ['name']);
+      const profiles = await Profile.find().populate('user', '-password');
       res.json(profiles);
     } catch (err) {
       console.error(err.message);
@@ -108,14 +110,14 @@ router.get('/', async (req, res) => {
     }
   });
 
-// @route    GET api/profile/user/:user_id
+// @route    GET api/profile/:user_id
 // @desc     Get profile by user ID
 // @access   Public
-router.get('/user/:user_id', async (req, res) => {
+router.get('/:user_id', async (req, res) => {
     try {
       const profile = await Profile.findOne({
         user: req.params.user_id
-      }).populate('User', ['name', 'email']);
+      }).populate('user', '-password');
   
       if (!profile) return res.status(400).json({ msg: 'Profile not found' });
   
@@ -125,6 +127,25 @@ router.get('/user/:user_id', async (req, res) => {
       if (err.kind == 'ObjectId') {
         return res.status(400).json({ msg: 'Profile not found' });
       }
+      res.status(500).send('Server Error');
+    }
+  });
+
+// @route    DELETE api/profile
+// @desc     Delete profile, user & posts
+// @access   Private
+router.delete('/', auth, async (req, res) => {
+    try {
+      // Remove user posts
+      await Post.deleteMany({ user: req.user.id });
+      // Remove profile
+      await Profile.findOneAndRemove({ user: req.user.id });
+      // Remove user
+      await User.findOneAndRemove({ _id: req.user.id });
+  
+      res.json({ msg: 'User deleted' });
+    } catch (err) {
+      console.error(err.message);
       res.status(500).send('Server Error');
     }
   });
