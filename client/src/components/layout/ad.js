@@ -10,8 +10,8 @@ const Landing = ({match}) => {
 
 	useEffect(() => {
 		axios.get(`/api/ad/find/${match.params.slug}`).then((response) => {
-			setAdData(response);
-			console.log(response);
+			setAdData(response.data);
+			console.log(response.data);
 		});
 	}, []);
 
@@ -19,23 +19,19 @@ const Landing = ({match}) => {
 		<Fragment>
 			<div>
 				<h1>Landing</h1>
-				{Object.values(adData).map((key, index) => {
-					return (
 						<div className="ads_container">
-							<div>{key.category}</div>
-							<div>{key.subcategory}</div>
-							<img src={key.image1} />
-							<div>{key.user ? key.user.name : key.user}</div>
-							<div>{key.title}</div>
+							<Link to={`/category/${adData.category}`}>{adData.category}</Link>
+							<div>{adData.subcategory}</div>
+							<img src={adData.image1} />
+							<div>{adData.user ? adData.user.name : adData.user}</div>
+							<div>{adData.title}</div>
 							<div>
-								{key.price} {key.currency}
+								{adData.price} {adData.currency}
 							</div>
-							<div>{key.brand}</div>
-							<div>{key.description}</div>
-							<div>{key.date}</div>
+							<div>{adData.brand}</div>
+							<div>{adData.description}</div>
+							<div>{adData.date}</div>
 						</div>
-					);
-				})}
 			</div>
 		</Fragment>
 	);

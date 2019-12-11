@@ -33,6 +33,7 @@ const Landing = ({match}) => {
 							<div>{key.brand}</div>
 							<div>{key.description}</div>
 							<div>{key.date}</div>
+							<Link to={`/ad/${key._id}`}>Ver</Link>
 						</div>
 					);
 				})}
