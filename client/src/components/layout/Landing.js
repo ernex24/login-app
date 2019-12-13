@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -12,25 +13,23 @@ const Landing = () => {
 		});
 	}, []);
 
+	let history = useHistory();
+
 	return (
 		<Fragment>
-			<div>
-				<h1>Landing</h1>
+			<div className="container">
 				{Object.values(adData).map((key, index) => {
 					return (
-						<div className="ads_container">
-							<Link to={`category/${key.category}`}>{key.category}</Link>
-							<div>{key.subcategory}</div>
-							<img src={key.image1} />
-							<div>{key.user.name}</div>
-							<div>{key.title}</div>
-							<div>
-								{key.price} {key.currency}
+						<div className="card_container" key={key._id} onClick={ () => history.push(`/ad/${key._id}`)}>
+							<img className="card_image" src={key.image1} />
+							<div className="card_description">
+								<div className="card_description_title">{key.title}</div>
+								<div className="card_description_price">
+									{key.price} {key.currency}
+								</div>
+								<div className="card_description_description">{key.description}</div>
+								<Link to={`ad/${key._id}`}></Link>
 							</div>
-							<div>{key.brand}</div>
-							<div>{key.description}</div>
-							<div>{key.date}</div>
-                            <Link to={`ad/${key._id}`}>Ver</Link>
 						</div>
 					);
 				})}

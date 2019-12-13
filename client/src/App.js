@@ -7,16 +7,18 @@ import Ad from './components/layout/ad';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import './App.css';
+import NavbarCategory from './components/layout/NavbarCategory';
 
 const App = () => (
 	<Router>
 		<Fragment>
 			<Navbar />
-			<Route exact path="/" component={Landing} />
-      <Route exact path="/category/:slug" component={Category} />
-      <Route exact path="/ad/:slug" component={Ad} />
-			<section>
+			<NavbarCategory />>
+			<section className="main_wrapper">
 				<Switch>
+					<Route exact path="/" component={Landing} />
+					<Route exact path="/category/:slug" component={Category} />
+					<Route exact path="/ad/:slug" component={Ad} />
 					<Route exact path="/register" component={Register} />
 					<Route exact path="/login" component={Login} />
 				</Switch>

@@ -7,12 +7,13 @@ const Login = () => {
 		password: ''
 	});
 
+	const [error, setError] = useState()
+
 	const { email, password } = formData;
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
-
 		const newUser = {
 			email,
 			password
@@ -24,43 +25,44 @@ const Login = () => {
 				}
 			};
 			const body = JSON.stringify(newUser);
-			console.log(body, config);
 			const res = await axios.post('/api/login', body, config);
-			console.log(res.data);
 		} catch (err) {
-			console.error(err.response.data);
+			const error =  err.response.data
+			setError(error.errors[0].msg)
+			console.error(error.errors[0].msg);
+			
 		}
 	};
 
 	return (
 		<Fragment>
-			<div>
-				<h1>Login</h1>
-				<form onSubmit={(e) => onSubmit(e)}>
-					<div>
-						<input
-							type="email"
-							value={email}
-							onChange={(e) => onChange(e)}
-							placeholder="Email"
-							name="email"
-							required
-						/>
-					</div>
-					<div>
-						<input
-							type="password"
-							placeholder="password"
-							name="password"
-							value={password}
-							onChange={(e) => onChange(e)}
-							minLength="6"
-							required
-						/>
-					</div>
-					<input type="submit" value="Register" />
-				</form>
-			</div>
+			<form className="login_container" onSubmit={(e) => onSubmit(e)}>
+				<div className="login_logo">Shoping_Hub</div>
+				<div className="auth_title">Log in</div>
+				<label className="input_labels">Name:</label>
+				<input
+					className="_input_login"
+					type="email"
+					value={email}
+					onChange={(e) => onChange(e)}
+					placeholder="Email"
+					name="email"
+					required
+				/>
+				<label className="input_labels">Password:</label>
+				<input
+					className="_input_login"
+					type="password"
+					placeholder="password"
+					name="password"
+					value={password}
+					onChange={(e) => onChange(e)}
+					minLength="6"
+					required
+				/>
+				{error}	
+				<input className="_input_button-primary" type="submit" value="Log In" />
+			</form>
 		</Fragment>
 	);
 };

@@ -40,54 +40,54 @@ const Register = () => {
 
 	return (
 		<Fragment>
-			<div>
-				<h1>Register</h1>
-				<form onSubmit={(e) => onSubmit(e)}>
-					<div>
-						<input
-							type="text"
-							value={name}
-							onChange={(e) => onChange(e)}
-							placeholder="Name"
-							name="name"
-							required
-						/>
-					</div>
-					<div>
-						<input
-							type="email"
-							value={email}
-							onChange={(e) => onChange(e)}
-							placeholder="Email"
-							name="email"
-							required
-						/>
-					</div>
-					<div>
-						<input
-							type="password"
-							placeholder="password"
-							name="password"
-							value={password}
-							onChange={(e) => onChange(e)}
-							minLength="6"
-							required
-						/>
-					</div>
-					<div>
-						<input
-							type="password"
-							value={password2}
-							onChange={(e) => onChange(e)}
-							placeholder="Confirm password"
-							name="password2"
-							minLength="6"
-							required
-						/>
-					</div>
-					<input type="submit" value="Register" />
-				</form>
-			</div>
+			<form className="login_container" onSubmit={(e) => onSubmit(e)}>
+				<div className="login_logo">Shoping_Hub</div>
+				<div className="auth_title">Register</div>
+				<label className="input_labels">Name:</label>
+				<input
+					className="_input_login"
+					type="text"
+					value={name}
+					onChange={(e) => onChange(e)}
+					placeholder="Name"
+					name="name"
+					required
+				/>
+				<label className="input_labels">Email:</label>
+				<input
+					className="_input_login"
+					type="email"
+					value={email}
+					onChange={(e) => onChange(e)}
+					placeholder="Email"
+					name="email"
+					required
+				/>
+				<label className="input_labels">Password:</label>
+				<input
+					className="_input_login"
+					type="password"
+					placeholder="Password"
+					name="password"
+					value={password}
+					onChange={(e) => onChange(e)}
+					minLength="6"
+					required
+				/>
+				<label className="input_labels">Confirm Password:</label>
+				<input
+					className="_input_login"
+					type="password"
+					value={password2}
+					onChange={(e) => onChange(e)}
+					placeholder="Confirm password"
+					name="password2"
+					minLength="6"
+					required
+				/>
+
+				<input className="_input_button-primary" type="submit" value="Register" />
+			</form>
 		</Fragment>
 	);
 };

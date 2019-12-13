@@ -4,7 +4,7 @@ const AdSchema = new mongoose.Schema({
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
-    },
+		},
 	category: {
 		type: String
     },
@@ -56,6 +56,12 @@ const AdSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	}
+});
+
+AdSchema.virtual('profilead', {
+  ref: 'Profile', // The model to use
+  localField: 'name', // Find people where `localField`
+  foreignField: 'city', // is equal to `foreignField`
 });
 
 module.exports = Ad = mongoose.model('Ad', AdSchema);
