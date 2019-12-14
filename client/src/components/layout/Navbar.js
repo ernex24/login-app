@@ -10,6 +10,7 @@ import useModal from './useModal';
 const Navbar = () => {
 	const [ user, setUser ] = useState();
 	const [ email, setEmail ] = useState();
+	const [ token, setToken ] = useState();
 
 	useEffect(() => {
 		getUser();
@@ -21,6 +22,7 @@ const Navbar = () => {
 				const getToken = JSON.parse(localStorage.getItem('token'));
 				if (getToken) {
 					const rawToken = getToken.token.token;
+					setToken(rawToken)
 					const config = {
 						headers: { 'X-Auth-Token': rawToken }
 					};
@@ -58,7 +60,7 @@ const Navbar = () => {
 					<li>
 						<Link to="/">Sell a product</Link>
 					</li>
-					{user ? <li>Hi, {user}</li> : <li onClick={toggle}>Login / Register</li>}
+					{user ? <li><Link to="/profile">Hi, {user}</Link></li> : <li onClick={toggle}>Login / Register</li>}
 					{user ? <li onClick={() => logOut()}>Log out</li> : ''}
 				</ul>
 			</div>

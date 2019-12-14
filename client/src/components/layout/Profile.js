@@ -1,20 +1,26 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import jwtdecode from 'jwt-decode';
+import {
+  withRouter
+} from 'react-router-dom'
 
 const Profile = (props) => {
 	const [ profile, setProfile ] = useState();
+	const [ token, setToken ] = useState();
 
 	useEffect(() => {
 		getUser();
 	}, []);
 
-	const getUser = () => {
+	const getUser = (props) => {
+		setInterval(() => {
 		try {
 			const getToken = JSON.parse(localStorage.getItem('token'));
 			if (getToken) {
 				const rawToken = getToken.token.token;
+				setToken(rawToken)
 				const config = {
 					headers: { 'X-Auth-Token': rawToken }
 				};
@@ -22,14 +28,22 @@ const Profile = (props) => {
 					if (res.status === 200) {
 						setProfile(res.data[0]);
 						console.log(res.data[0]);
-					}
+					} 
 				});
+			} else if (!getToken){
+				setProfile('')
+				setToken(false)
 			}
 		} catch (err) {
 			console.log(err);
 			console.log('error');
 		}
+		}, 300);
 	};
+
+	if (token === false) {
+		return <Redirect to="/" />;
+	  }
 
 	return (
 		<Fragment>
