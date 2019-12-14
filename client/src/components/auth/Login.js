@@ -1,6 +1,6 @@
 import React, { Fragment, useState, use } from 'react';
 import axios from 'axios';
-
+import { Redirect } from 'react-router-dom';
 
 const Login = (props) => {
 
@@ -10,32 +10,41 @@ const Login = (props) => {
 	});
 	const [ error, setError ] = useState();
 	const [ token, setToken ] = useState();
-	const [login, setLogin] = useState(false);
+	const [ login, setLogin ] = useState(false);
 	const { email, password } = formData;
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
+
 		const newUser = {
 			email,
 			password
 		};
 		try {
 			const config = {
-				headers: {'Content-Type': 'application/json'}
+				headers: { 'Content-Type': 'application/json' }
 			};
 			const body = JSON.stringify(newUser);
 			const res = await axios.post('/api/login', body, config);
 			console.log(res);
-			if (res.status === 200){
-				localStorage.setItem('token', JSON.stringify({token: res.data}));
-				setToken(res.data.token)	
-				setLogin(true)
+			if (res.status === 200) {
+				localStorage.setItem('token', JSON.stringify({ token: res.data }));
+				setToken(res.data.token);
+				setLogin(true);
+				props.hide();
+				
 			}
 		} catch (err) {
-			if(err){setError('Error ocurred');}		
+			if (err) {
+				setError('Error ocurred');
+			}
 		}
 	};
+
+	if (login) {
+		return <Redirect to="/profile" />;
+	  }
 
 	return (
 		<Fragment>

@@ -5,12 +5,11 @@ import axios from 'axios';
 import Modal from './Modal';
 import useModal from './useModal';
 
-import jwtdecode from 'jwt-decode';
+ 
 
 const Navbar = () => {
-
-	const [user, setUser] = useState();
-	const [email, setEmail] = useState();
+	const [ user, setUser ] = useState();
+	const [ email, setEmail ] = useState();
 
 	useEffect(() => {
 		getUser();
@@ -20,19 +19,21 @@ const Navbar = () => {
 		setInterval(() => {
 			try {
 				const getToken = JSON.parse(localStorage.getItem('token'));
-				const rawToken = getToken.token.token;
-				const config = {
-					headers: { 'X-Auth-Token': rawToken }
-				};
-				axios.get('/api/auth', config).then((res) => {
-					if (res.status === 200){
-						setUser(res.data.name)
-						setEmail(res.data.email)
-					}
-				});
+				if (getToken) {
+					const rawToken = getToken.token.token;
+					const config = {
+						headers: { 'X-Auth-Token': rawToken }
+					};
+					axios.get('/api/auth', config).then((res) => {
+						if (res.status === 200) {
+							setUser(res.data.name);
+							setEmail(res.data.email);
+						}
+					});
+				}
 			} catch (err) {
 				console.log(err);
-				console.log('error')
+				console.log('error');
 			}
 		}, 300);
 	};
@@ -41,10 +42,10 @@ const Navbar = () => {
 
 	const logOut = () => {
 		localStorage.removeItem('token');
-		setUser(null)
-		setEmail(null)
-	}
-	
+		setUser(null);
+		setEmail(null);
+	};
+
 	return (
 		<Fragment>
 			<Modal isShowing={isShowing} hide={toggle} />
@@ -54,11 +55,11 @@ const Navbar = () => {
 				</div>
 				<input placeholder="Search" className="_input" type="text" />
 				<ul className="header_menu">
-				<li>
-				  <Link to="/">Sell a product</Link>
-				</li>
-				{ user ? <li>Hi, {user}</li> :  <li onClick={toggle}>Login / Register</li> }
-				{ user ? <li onClick={ () => logOut() } >Log out</li> :  '' }
+					<li>
+						<Link to="/">Sell a product</Link>
+					</li>
+					{user ? <li>Hi, {user}</li> : <li onClick={toggle}>Login / Register</li>}
+					{user ? <li onClick={() => logOut()}>Log out</li> : ''}
 				</ul>
 			</div>
 		</Fragment>
