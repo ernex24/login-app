@@ -1,14 +1,16 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, use } from 'react';
 import axios from 'axios';
 
-const Login = () => {
+
+const Login = (props) => {
+
 	const [ formData, setFormData ] = useState({
 		email: '',
 		password: ''
 	});
-
-	const [error, setError] = useState()
-
+	const [ error, setError ] = useState();
+	const [ token, setToken ] = useState();
+	const [login, setLogin] = useState(false);
 	const { email, password } = formData;
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -20,25 +22,24 @@ const Login = () => {
 		};
 		try {
 			const config = {
-				headers: {
-					'Content-Type': 'application/json'
-				}
+				headers: {'Content-Type': 'application/json'}
 			};
 			const body = JSON.stringify(newUser);
 			const res = await axios.post('/api/login', body, config);
+			console.log(res);
+			if (res.status === 200){
+				localStorage.setItem('token', JSON.stringify({token: res.data}));
+				setToken(res.data.token)	
+				setLogin(true)
+			}
 		} catch (err) {
-			const error =  err.response.data
-			setError(error.errors[0].msg)
-			console.error(error.errors[0].msg);
-			
+			if(err){setError('Error ocurred');}		
 		}
 	};
 
 	return (
 		<Fragment>
 			<form className="login_container" onSubmit={(e) => onSubmit(e)}>
-				<div className="login_logo">Shoping_Hub</div>
-				<div className="auth_title">Log in</div>
 				<label className="input_labels">Name:</label>
 				<input
 					className="_input_login"
@@ -60,7 +61,7 @@ const Login = () => {
 					minLength="6"
 					required
 				/>
-				{error}	
+				<div className="alert_error">{error}</div>
 				<input className="_input_button-primary" type="submit" value="Log In" />
 			</form>
 		</Fragment>

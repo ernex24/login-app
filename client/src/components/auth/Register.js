@@ -9,6 +9,8 @@ const Register = () => {
 		password2: ''
 	});
 
+	const [error, setError] = useState()
+
 	const { name, email, password, password2 } = formData;
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -34,6 +36,9 @@ const Register = () => {
 				console.log(res.data);
 			} catch (err) {
 				console.error(err.response.data);
+				const error =  err.response.data
+				setError(error.errors[0].msg)
+				console.error(error.errors[0].msg);
 			}
 		}
 	};
@@ -41,8 +46,7 @@ const Register = () => {
 	return (
 		<Fragment>
 			<form className="login_container" onSubmit={(e) => onSubmit(e)}>
-				<div className="login_logo">Shoping_Hub</div>
-				<div className="auth_title">Register</div>
+
 				<label className="input_labels">Name:</label>
 				<input
 					className="_input_login"
@@ -85,7 +89,7 @@ const Register = () => {
 					minLength="6"
 					required
 				/>
-
+				<div className="alert_error">{error}</div>
 				<input className="_input_button-primary" type="submit" value="Register" />
 			</form>
 		</Fragment>
