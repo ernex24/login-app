@@ -455,9 +455,9 @@ textarea {
 	--color-contrast: #ffffff;
 	--color-lowcontrast: #eeeeee;
 	--color-medcontrast: #666666;
-	--color-error: #E00714;
-	--color-warning: #F8CA00;
-	--color-valid: #8EB746;
+	--color-error: #e00714;
+	--color-warning: #f8ca00;
+	--color-valid: #8eb746;
 	--shadow-main: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2));
 	--margin-s: 10px;
 	--margin-m: 20px;
@@ -514,15 +514,15 @@ a {
 
 .card_container_ad {
 	cursor: pointer;
-    background: var(--color-contrast);
-    margin: 0px 20px 20px 0px;
-    height: -moz-fit-content;
-    height: fit-content;
-    height: 500px;
-    width: 800px;
-    border-radius: 10px;
-    filter: var(--shadow-main);
-    display: flex;
+	background: var(--color-contrast);
+	margin: 0px 20px 20px 0px;
+	height: -moz-fit-content;
+	height: fit-content;
+	height: 500px;
+	width: 800px;
+	border-radius: 10px;
+	filter: var(--shadow-main);
+	display: flex;
 }
 
 .card_image {
@@ -565,6 +565,7 @@ a {
 .card_description_title {
 	font-size: var(--font-size-l);
 	font-weight: 600;
+	margin-top: 20px;
 }
 
 .card_description_price {
@@ -637,16 +638,15 @@ a {
 	left: 20px;
 }
 
-
 .login_logo {
 	font-size: var(--font-size-xxl);
-    font-family: 'Nothing You Could Do', cursive;
-    color: var(--color-primary);
+	font-family: 'Nothing You Could Do', cursive;
+	color: var(--color-primary);
 	text-align: center;
 	margin: 20px;
 }
 
-.auth_title{
+.auth_title {
 	display: flex;
 	justify-content: center;
 	margin: 20px;
@@ -654,7 +654,7 @@ a {
 	color: var(--color-secondary-contrast);
 }
 
-.input_labels{
+.input_labels {
 	text-align: left;
 	font-size: var(--font-size-s);
 	color: var(--color-medcontrast);
@@ -703,48 +703,48 @@ a {
 
 ._input_login {
 	height: 28px;
-    margin: 10px 0;
-    border-radius: 8px;
-    border: 1px solid var(--color-lowcontrast);
-    padding: 10px;
+	margin: 10px 0;
+	border-radius: 8px;
+	border: 1px solid var(--color-lowcontrast);
+	padding: 10px;
 }
 
 input:focus {
 	border: 1px solid var(--color-secondary-contrast);
-  }
+}
 
 ._input_button-primary {
 	display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 44px;
-    margin: 10px 0;
-    border-radius: 8px;
-    background-color: var(--color-secondary);
-    border: 1px solid var(--color-secondary);
-    color: var(--color-secondary-contrast);
-    font-size: var(--font-size-m);
+	justify-content: center;
+	align-items: center;
+	height: 44px;
+	margin: 10px 0;
+	border-radius: 8px;
+	background-color: var(--color-secondary);
+	border: 1px solid var(--color-secondary);
+	color: var(--color-secondary-contrast);
+	font-size: var(--font-size-m);
 	padding: 10px;
 	font-weight: 300;
 }
 
 ._input_button-secondary {
 	display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 44px;
-    margin: 10px 0;
-    border-radius: 8px;
-    background-color: var(--color-contrast);
-    border: 0;
-    color: var(--color-secondary-contrast);
-    font-size: var(--font-size-m);
+	justify-content: center;
+	align-items: center;
+	height: 44px;
+	margin: 10px 0;
+	border-radius: 8px;
+	background-color: var(--color-contrast);
+	border: 0;
+	color: var(--color-secondary-contrast);
+	font-size: var(--font-size-m);
 	padding: 10px;
 	font-weight: 300;
 }
 
-.alert_error{
-	color:var(--color-error);
+.alert_error {
+	color: var(--color-error);
 	height: 20px;
 	display: flex;
 	justify-content: center;
@@ -752,7 +752,6 @@ input:focus {
 }
 
 /* Modal clases */
-
 
 .modal-overlay {
 	position: fixed;
@@ -802,13 +801,49 @@ input:focus {
 	border: none;
 }
 
-.modal_body{
+.modal_body {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 }
 
-.modal_body > div > div > ul > div *{ 
-background-color: var(--color-secondary)
+.modal_body > div > div > ul > div * {
+	background-color: var(--color-secondary);
 }
 
+.container_profile {
+	display: flex;
+	justify-content: center;
+}
+
+.card_profile {
+	display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: var(--color-contrast);
+    height: 80%;
+    width: 80%;
+    padding: 10px 60px 60px 60px;
+    margin: 20px;
+    border-radius: 20px;
+}
+
+.profile_image {
+	display: flex;
+	flex-direction: column;
+	margin: 0 20px 20px 0;
+	text-align: left;
+}
+
+.round-profile-image {
+	margin: 10px;
+	height: 200px;
+	width: 200px;
+	border-radius: 200px;
+	filter: var(--shadow-main);
+}
+
+.conatainer_map{
+	height: 200px;
+	width: 200px;
+}
