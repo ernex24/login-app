@@ -463,6 +463,8 @@ textarea {
 	--margin-m: 20px;
 	--padding-s: 10px;
 	--padding-m: 10px;
+	--font-family-primary: 'Poppins', sans-serif;
+	--font-family-secondary: 'Montserrat', sans-serif;
 	--font-size-xs: 10px;
 	--font-size-s: 14px;
 	--font-size-m: 16px;
@@ -473,7 +475,7 @@ textarea {
 
 body {
 	background-color: var(--color-lowcontrast);
-	font-family: 'Poppins', sans-serif;
+	font-family: var(--font-family-secondary);
 	font-size: var(--font-size-s);
 	line-height: 1.3;
 }
@@ -565,7 +567,7 @@ a {
 .card_description_title {
 	font-size: var(--font-size-l);
 	font-weight: 600;
-	margin-top: 20px;
+	margin: 20px 0;
 }
 
 .card_description_price {
@@ -818,14 +820,14 @@ input:focus {
 
 .card_profile {
 	display: flex;
-    justify-content: center;
-    flex-direction: column;
-    background-color: var(--color-contrast);
-    height: 80%;
-    width: 80%;
-    padding: 10px 60px 60px 60px;
-    margin: 20px;
-    border-radius: 20px;
+	justify-content: center;
+	flex-direction: column;
+	background-color: var(--color-contrast);
+	height: 80%;
+	width: 96%;
+	padding: 10px 60px 60px 60px;
+	margin: 20px;
+	border-radius: 20px;
 }
 
 .profile_image {
@@ -843,7 +845,19 @@ input:focus {
 	filter: var(--shadow-main);
 }
 
-.conatainer_map{
+.conatainer_map {
 	height: 200px;
 	width: 200px;
+}
+
+.conatainer_map > div {
+	position: absolute !important;
+	width: 100% !important;
+	height: 300px !important;
+}
+
+.container_myproducts{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }

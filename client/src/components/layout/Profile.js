@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import jwtdecode from 'jwt-decode';
@@ -6,6 +7,9 @@ import { withRouter } from 'react-router-dom';
 import { Tabs } from '@yazanaabed/react-tabs';
 
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import Modal from './Modal';
+
+import Myads from './MyAds';
 
 const Profile = (props) => {
 	const [ formData, setFormData ] = useState({
@@ -17,6 +21,7 @@ const Profile = (props) => {
 
 	const [ profile, setProfile ] = useState();
 	const [ token, setToken ] = useState();
+	const [ address, setAdress ] = useState();
 
 	useEffect(() => {
 		getUser();
@@ -29,13 +34,14 @@ const Profile = (props) => {
 				if (getToken) {
 					const rawToken = getToken.token.token;
 					setToken(rawToken);
+
 					const config = {
 						headers: { 'X-Auth-Token': rawToken }
 					};
 					axios.get('/api/profile/me', config).then((res) => {
 						if (res.status === 200) {
 							setProfile(res.data[0]);
-							console.log(res.data[0]);
+							// console.log(res.data[0]);
 						}
 					});
 				} else if (!getToken) {
@@ -46,7 +52,19 @@ const Profile = (props) => {
 				console.log(err);
 				console.log('error');
 			}
-		}, 300);
+		}, 30);
+	};
+
+	const getLocation = () => {
+		// const apiKey ='AIzaSyANQlvYu6lVCvxwtr_vr_ksvsN4KojHBhk'
+		// axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${profile ? profile.postalcode : profile}+${profile ? profile.city : profile}+${profile ? profile.country : profile}&key=${apiKey}`).then((res) => {
+		// 	if (res.status === 200) {
+		// 		const results = res.data.results[0] ? res.data.results[0].geometry.location : res.data.results[0]
+		// 		console.log(results);
+		// 		setAdress(results)
+		// 	}
+		// });
+		// console.log('call');
 	};
 
 	if (token === false) {
@@ -55,8 +73,8 @@ const Profile = (props) => {
 
 	const mapStyles = {
 		width: '80%',
-		height: '200px',
-	  };
+		height: '200px'
+	};
 
 	return (
 		<Fragment>
@@ -145,24 +163,10 @@ const Profile = (props) => {
 									/>
 									<input className="_input_button-primary" type="submit" value="Update My profile" />
 								</form>
-								<div className="conatainer_map">
-								<Map 
-								style={mapStyles}
-								google={props.google}
-								zoom={14}
-								initialCenter={{
-									lat: 47.3769,
-									lng: 8.5417
-								  }}
-								>
-								</Map>
-								</div>
-
+								<div className="conatainer_map" />
 							</Tabs.Tab>
 							<Tabs.Tab id="tab2" title="My Products">
-								<div>
-									<div className="card_description_title">My products</div>
-								</div>
+								<Myads token={token} userId={profile ? profile.user._id : profile} />
 							</Tabs.Tab>
 						</Tabs>
 					</div>
