@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
 
 const Myads = (props) => {
@@ -22,7 +23,7 @@ const Myads = (props) => {
 		});
 	};
 
-	
+    let history = useHistory();
 
 	return (
 		<div>
@@ -33,7 +34,7 @@ const Myads = (props) => {
 						<div
 							className="card_container"
 							key={key._id}
-							// onClick={() => history.push(`/ad/${key._id}`)}
+							onClick={() => history.push(`/ad/${key._id}`)}
 						>
 							<img className="card_image" src={key.image1} />
 							<div className="card_description">

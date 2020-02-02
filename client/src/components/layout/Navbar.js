@@ -4,7 +4,6 @@ import axios from 'axios';
 
 import Modal from './Modal';
 import useModal from './useModal';
-
  
 
 const Navbar = () => {
@@ -58,7 +57,7 @@ const Navbar = () => {
 				<input placeholder="Search" className="_input" type="text" />
 				<ul className="header_menu">
 					<li>
-						<Link to="/">Sell a product</Link>
+						<Link to="/postad">Sell a product</Link>
 					</li>
 					{user ? <li><Link to="/profile">Hi, {user}</Link></li> : <li onClick={toggle}>Login / Register</li>}
 					{user ? <li onClick={() => logOut()}>Log out</li> : ''}

@@ -8,6 +8,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import './App.css';
 import NavbarCategory from './components/layout/NavbarCategory';
+import PostAd from './components/layout/PostAd';
 
 import Profile from './components/layout/Profile';
 
@@ -25,6 +26,7 @@ const App = (props) => {
 					<Route exact path="/ad/:slug" component={Ad} />
 					<Route exact path="/login" component={Login} />
 					<Route exact path="/profile" component={Profile} />
+					<Route exact path="/postad" component={PostAd} />
 				</Switch>
 			</section>
 	</Router>

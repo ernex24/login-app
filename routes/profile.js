@@ -15,23 +15,23 @@ router.post(
     '/',
     [
       auth,
-      [
-        check('country', 'Country is required')
-          .not()
-          .isEmpty(),
-        check('city', 'City is required')
-          .not()
-          .isEmpty(),
-          check('phone', 'Phone is required')
-          .not()
-          .isEmpty()
-      ]
+      // [
+      //   check('country', 'Country is required')
+      //     .not()
+      //     .isEmpty(),
+      //   check('city', 'City is required')
+      //     .not()
+      //     .isEmpty(),
+      //     check('phone', 'Phone is required')
+      //     .not()
+      //     .isEmpty()
+      // ]
     ],
     async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
+      // const errors = validationResult(req);
+      // if (!errors.isEmpty()) {
+      //   return res.status(400).json({ errors: errors.array() });
+      // }
   
       const {
         image,

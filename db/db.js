@@ -4,7 +4,8 @@ require('dotenv').config()
 mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false 
 });
 
 var db = mongoose.connection;

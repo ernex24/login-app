@@ -7,40 +7,40 @@ const NavbarCategory = (props) => {
 		<div className="cta_category">What are you going to buy or sell today?</div>
 		<ul className="header_menu_category">
 			<li>
-				<Link to="/register">All</Link>
+				<Link to="/">All</Link>
 			</li>
 			<li>
-				<Link to="/login">Cars</Link>
+				<Link to="/cars">Cars</Link>
 			</li>
 			<li>
-				<Link to="/">Bikes</Link>
+				<Link to="/bikes">Bikes</Link>
 			</li>
 			<li>
-				<Link to="/">Fashion</Link>
+				<Link to="/fashion">Fashion</Link>
 			</li>
 			<li>
-				<Link to="/">Tv / Audio</Link>
+				<Link to="/tv">Tv / Audio</Link>
 			</li>
 			<li>
-				<Link to="/">Cellphones</Link>
+				<Link to="/cellphones">Cellphones</Link>
 			</li>
 			<li>
-				<Link to="/">Electronic</Link>
+				<Link to="/electronic">Electronic</Link>
 			</li>
 			<li>
-				<Link to="/">Collecting</Link>
+				<Link to="/collecting">Collecting</Link>
 			</li>
 			<li>
-				<Link to="/">Construction</Link>
+				<Link to="/construction">Construction</Link>
 			</li>
 			<li>
-				<Link to="/">Services</Link>
+				<Link to="/services">Services</Link>
 			</li>
 			<li>
-				<Link to="/">Jobs</Link>
+				<Link to="/jobs">Jobs</Link>
 			</li>
 			<li>
-				<Link to="/">Others</Link>
+				<Link to="/others">Others</Link>
 			</li>
 		</ul>
 	</div>

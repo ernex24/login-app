@@ -1,7 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
-const Register = () => {
+const Register = (props) => {
 	const [ formData, setFormData ] = useState({
 		name: '',
 		email: '',
@@ -9,7 +10,9 @@ const Register = () => {
 		password2: ''
 	});
 
-	const [error, setError] = useState()
+	const [ error, setError ] = useState();
+	const [ login, setLogin ] = useState(false);
+	const [ token, setToken ] = useState();
 
 	const { name, email, password, password2 } = formData;
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,22 +34,31 @@ const Register = () => {
 					}
 				};
 				const body = JSON.stringify(newUser);
-				console.log(body, config);
 				const res = await axios.post('/api/register', body, config);
-				console.log(res.data);
+				console.log(res);
+				if (res.status === 200) {
+					localStorage.setItem('token', JSON.stringify({ token: res.data }));
+					setToken(res.data.token);
+					setLogin(true);
+					props.hide();
+				}
 			} catch (err) {
-				console.error(err.response.data);
-				const error =  err.response.data
-				setError(error.errors[0].msg)
-				console.error(error.errors[0].msg);
+				console.error('Error')
+				// console.error(err.response.data);
+				// const error = err.response.data;
+				// setError(error.errors[0].msg);
+				// console.error(error.errors[0].msg);
 			}
 		}
 	};
 
+	if (login) {
+		return <Redirect to="/profile" />;
+	  }
+
 	return (
 		<Fragment>
 			<form className="login_container" onSubmit={(e) => onSubmit(e)}>
-
 				<label className="input_labels">Name:</label>
 				<input
 					className="_input_login"

@@ -5,23 +5,26 @@ import axios from 'axios';
 import jwtdecode from 'jwt-decode';
 import { withRouter } from 'react-router-dom';
 import { Tabs } from '@yazanaabed/react-tabs';
-
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import Modal from './Modal';
-
 import Myads from './MyAds';
 
 const Profile = (props) => {
+	const [ token, setToken ] = useState();
+	const [ profile, setProfile ] = useState();
+	const [ profileExist, setProfileExist ] = useState(false);
 	const [ formData, setFormData ] = useState({
 		email: '',
-		password: ''
+		image: '',
+		name: '',
+		email: '',
+		bio: '',
+		country: '',
+		city: '',
+		postalcode: '',
+		phone: ''
 	});
-
+	const { email, password, image, name, bio, country, city, postalcode, phone } = formData;
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-	const [ profile, setProfile ] = useState();
-	const [ token, setToken ] = useState();
-	const [ address, setAdress ] = useState();
 
 	useEffect(() => {
 		getUser();
@@ -34,14 +37,16 @@ const Profile = (props) => {
 				if (getToken) {
 					const rawToken = getToken.token.token;
 					setToken(rawToken);
-
 					const config = {
 						headers: { 'X-Auth-Token': rawToken }
 					};
 					axios.get('/api/profile/me', config).then((res) => {
 						if (res.status === 200) {
 							setProfile(res.data[0]);
-							// console.log(res.data[0]);
+							if (res.data.length != 0) {
+								setProfileExist(true);
+							}
+							// console.log(res.data);
 						}
 					});
 				} else if (!getToken) {
@@ -52,28 +57,40 @@ const Profile = (props) => {
 				console.log(err);
 				console.log('error');
 			}
-		}, 30);
-	};
-
-	const getLocation = () => {
-		// const apiKey ='AIzaSyANQlvYu6lVCvxwtr_vr_ksvsN4KojHBhk'
-		// axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${profile ? profile.postalcode : profile}+${profile ? profile.city : profile}+${profile ? profile.country : profile}&key=${apiKey}`).then((res) => {
-		// 	if (res.status === 200) {
-		// 		const results = res.data.results[0] ? res.data.results[0].geometry.location : res.data.results[0]
-		// 		console.log(results);
-		// 		setAdress(results)
-		// 	}
-		// });
-		// console.log('call');
+		}, 500);
 	};
 
 	if (token === false) {
 		return <Redirect to="/" />;
 	}
 
-	const mapStyles = {
-		width: '80%',
-		height: '200px'
+	const onSubmit = async (e) => {
+		e.preventDefault();
+		const profile = {
+			image,
+			name,
+			email,
+			bio,
+			country,
+			city,
+			postalcode,
+			phone
+		};
+		try {
+			const config = {
+				headers: { 'Content-Type': 'application/json', 'X-Auth-Token': token }
+			};
+			const body = JSON.stringify(profile);
+			const res = await axios.post('/api/profile', body, config);
+			console.log(res);
+			if (res.status === 200) {
+				console.log('Profile Created');
+			}
+		} catch (err) {
+			if (err) {
+				console.log(err);
+			}
+		}
 	};
 
 	return (
@@ -83,87 +100,82 @@ const Profile = (props) => {
 					<div className="card_profile">
 						<Tabs activeTab={{ id: 'tab1' }}>
 							<Tabs.Tab id="tab1" title="My Profile">
-								<div className="card_description_title">
-									Hi, {profile ? profile.user.name : profile} This is your personal profile
-								</div>
-								<form className="login_container">
+								{ profileExist ? 
+									<div className="card_description_title">
+										Hi, {profile ? profile.user.name : profile} This is your personal profile
+									</div>
+									:
+									<div className="card_description_title">
+										Hi, {profile ? profile.user.name : profile} First create your profile
+									</div>
+								}
+								<form className="login_container" onSubmit={(e) => onSubmit(e)}>
 									<div className="profile_image">
 										<label className="input_labels">Profile picture:</label>
 										<img className="round-profile-image" src={profile ? profile.image : profile} />
 									</div>
+
+									<div className="profile_image">
+										<label className="input_labels">Email:</label>
+										{profile ? profile.user.email : profile}
+									</div>
+
 									<label className="input_labels">Name:</label>
 									<input
 										className="_input_login"
-										type="test"
-										value={profile ? profile.user.name : profile}
+										type="text"
+										value={name}
 										onChange={(e) => onChange(e)}
-										placeholder="name"
+										placeholder={profile ? profile.user.name : profile}
 										name="name"
-										required
-									/>
-									<label className="input_labels">Email:</label>
-									<input
-										className="_input_login"
-										type="email"
-										value={profile ? profile.user.email : profile}
-										onChange={(e) => onChange(e)}
-										placeholder="email"
-										name="email"
-										required
 									/>
 									<label className="input_labels">Bio:</label>
 									<input
 										className="_input_login"
 										type="text"
-										value={profile ? profile.bio : profile}
+										value={bio}
 										onChange={(e) => onChange(e)}
-										placeholder="text"
-										name="text"
-										required
+										placeholder={profile ? profile.bio : profile}
+										name="bio"
 									/>
 									<label className="input_labels">Country:</label>
 									<input
 										className="_input_login"
 										type="text"
-										value={profile ? profile.country : profile}
+										value={country}
 										onChange={(e) => onChange(e)}
-										placeholder="country"
+										placeholder={profile ? profile.country : profile}
 										name="country"
-										required
 									/>
 									<label className="input_labels">City:</label>
 									<input
 										className="_input_login"
 										type="text"
-										value={profile ? profile.city : profile}
+										value={city}
 										onChange={(e) => onChange(e)}
-										placeholder="city"
+										placeholder={profile ? profile.city : profile}
 										name="city"
-										required
 									/>
 									<label className="input_labels">Postal Code:</label>
 									<input
 										className="_input_login"
 										type="text"
-										value={profile ? profile.postalcode : profile}
+										value={postalcode}
 										onChange={(e) => onChange(e)}
-										placeholder="Prostal Code"
+										placeholder={profile ? profile.postalcode : profile}
 										name="postalcode"
-										required
 									/>
 									<label className="input_labels">Phone:</label>
 									<input
 										className="_input_login"
 										type="text"
-										value={profile ? profile.phone : profile}
+										value={phone}
 										onChange={(e) => onChange(e)}
-										placeholder="Phone"
+										placeholder={profile ? profile.phone : profile}
 										name="phone"
-										required
 									/>
 									<input className="_input_button-primary" type="submit" value="Update My profile" />
 								</form>
-								<div className="conatainer_map" />
 							</Tabs.Tab>
 							<Tabs.Tab id="tab2" title="My Products">
 								<Myads token={token} userId={profile ? profile.user._id : profile} />
@@ -176,6 +188,4 @@ const Profile = (props) => {
 	);
 };
 
-export default GoogleApiWrapper({
-	apiKey: 'AIzaSyANQlvYu6lVCvxwtr_vr_ksvsN4KojHBhk'
-})(Profile);
+export default Profile;
