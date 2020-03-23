@@ -1,15 +1,25 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
-
+import { useHistory } from "react-router-dom";
 import Modal from './Modal';
 import useModal from './useModal';
  
 
 const Navbar = () => {
+
 	const [ user, setUser ] = useState();
 	const [ email, setEmail ] = useState();
 	const [ token, setToken ] = useState();
+	const [ search, setSearch ] = useState();
+
+
+	const onChange = (e) => setSearch(e.target.value);
+
+	const history = useHistory();
+	function handleClick(e) {
+		history.push("/search");
+	  }
 
 	useEffect(() => {
 		getUser();
@@ -47,6 +57,7 @@ const Navbar = () => {
 		setEmail(null);
 	};
 
+
 	return (
 		<Fragment>
 			<Modal isShowing={isShowing} hide={toggle} />
@@ -54,7 +65,17 @@ const Navbar = () => {
 				<div className="header_logo">
 					<Link to="/">Shopping_Hub</Link>
 				</div>
-				<input placeholder="Search" className="_input" type="text" />
+				<form className="_search_form">
+				<input
+					className="_input"
+					value={search}
+					type="text"
+					placeholder="Search"
+					name="search"
+					onChange={(e) => onChange(e)}
+				/>
+				<input className="_input_button-primary" type="submit" value="Search" onClick={handleClick}/>
+				</form>
 				<ul className="header_menu">
 					<li>
 						<Link to="/postad">Sell a product</Link>

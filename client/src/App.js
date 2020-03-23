@@ -11,11 +11,19 @@ import NavbarCategory from './components/layout/NavbarCategory';
 import PostAd from './components/layout/PostAd';
 
 import Profile from './components/layout/Profile';
+import Search from './components/layout/Search';
+
+const NoMatchPage = () => {
+	return (
+	  <h3>404 - Not found</h3>
+	);
+  };
 
 const App = (props) => { 
 
 	return (
 
+		
 	<Router>
 			<Navbar />
 			<NavbarCategory />
@@ -27,6 +35,8 @@ const App = (props) => {
 					<Route exact path="/login" component={Login} />
 					<Route exact path="/profile" component={Profile} />
 					<Route exact path="/postad" component={PostAd} />
+					<Route exact path="/search" component={Search} />
+					<Route component={NoMatchPage} />
 				</Switch>
 			</section>
 	</Router>

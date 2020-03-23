@@ -1,21 +1,31 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
-import { useParams} from "react-router";
+import { useParams,  useLocation } from "react-router";
 import { Link } from 'react-router-dom';
+import queryString from 'query-string'
+
 import axios from 'axios';
 
-const Category = ({match}) => {
+const Search = ({match}) => {
 	const [ adData, setAdData ] = useState({});
+
+	let location = useLocation();
+
+	const values = queryString.parse(location.search)
+	console.log(values.search)
 
 	let { id } = useParams();
 
 	useEffect(() => {
-		axios.get(`/api/ad/${match.params.slug}`).then((response) => {
+		axios.get(`/api/ad/search/${values.search}`).then((response) => {
 			setAdData(response.data);
 			console.log(response.data);
 		});
-	});
+	}, []);
+
 	let history = useHistory();
+	
+
 	return (
 		<Fragment>
 			<div className="container">
@@ -38,4 +48,4 @@ const Category = ({match}) => {
 	);
 };
 
-export default Category;
+export default Search;

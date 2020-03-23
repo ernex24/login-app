@@ -263,4 +263,21 @@ router.put('/unlike/:id', auth, async (req, res) => {
 	}
 });
 
+
+// @route    GET api/ad/:query
+// @desc     Get post by Query
+// @access   Public
+router.get('/search/:query', async (req, res) => {
+	try {
+		const ads = await Ad.find({$text: {$search: req.params.query}})
+		.populate('user', [ 'name', 'email' ]);
+		console.log('console');
+		res.json(ads);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+
 module.exports = router;
