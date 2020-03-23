@@ -8,6 +8,8 @@ import Moment from 'react-moment';
 const PostAd = ({ match }) => {
 	const [ token, setToken ] = useState();
 	const [ profile, setProfile ] = useState();
+	const [ postAd, setPostAd ] = useState();
+	const [ postId, setPostId ] = useState();
 	const [ formData, setFormData ] = useState({
 		category: '',
 		subcategory: '',
@@ -94,6 +96,8 @@ const PostAd = ({ match }) => {
 			const res = await axios.post('/api/ad', body, config);
 			console.log(res);
 			if (res.status === 200) {
+				setPostId(res);
+				setPostAd(true);
 				console.log('post saved');
 			}
 		} catch (err) {
@@ -102,6 +106,11 @@ const PostAd = ({ match }) => {
 			}
 		}
 	};
+
+	if (postAd === true) {
+		console.log(postId.data._id)
+		return <Redirect to={`/ad/${postId.data._id}`}/>;
+	}
 
 	return (
 		<Fragment>
@@ -113,7 +122,7 @@ const PostAd = ({ match }) => {
 							<label className="input_labels">Category:</label>
 							
                             <select className="_select_login" name="category" value={category} onChange={(e) => onChange(e)}>
-								<option value="cars">Cars</option>
+								<option value="cars">Select Category</option>
 								<option value="bikes">Bikes</option>
 								<option value="fashion">Fashion</option>
 								<option value="cellphones" >Cellphones</option>
@@ -155,7 +164,7 @@ const PostAd = ({ match }) => {
 							<input
 								className="_input_login"
 								value={year}
-								type="text"
+								type="number"
 								placeholder="Year of the product"
 								name="year"
 								onChange={(e) => onChange(e)}

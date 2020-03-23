@@ -14,7 +14,7 @@ const Landing = ({match}) => {
 			setAdData(response.data);
 			console.log(response.data);
 		});
-	}, []);
+	});
 	let history = useHistory();
 	return (
 		<Fragment>

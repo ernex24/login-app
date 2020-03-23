@@ -10,37 +10,37 @@ const NavbarCategory = (props) => {
 				<Link to="/">All</Link>
 			</li>
 			<li>
-				<Link to="/cars">Cars</Link>
+				<Link to="/category/cars">Cars</Link>
 			</li>
 			<li>
-				<Link to="/bikes">Bikes</Link>
+				<Link to="/category/bikes">Bikes</Link>
 			</li>
 			<li>
-				<Link to="/fashion">Fashion</Link>
+				<Link to="/category/fashion">Fashion</Link>
 			</li>
 			<li>
-				<Link to="/tv">Tv / Audio</Link>
+				<Link to="/category/tv">Tv / Audio</Link>
 			</li>
 			<li>
-				<Link to="/cellphones">Cellphones</Link>
+				<Link to="/category/cellphones">Cellphones</Link>
 			</li>
 			<li>
-				<Link to="/electronic">Electronic</Link>
+				<Link to="/category/electronic">Electronic</Link>
 			</li>
 			<li>
-				<Link to="/collecting">Collecting</Link>
+				<Link to="/category/collecting">Collecting</Link>
 			</li>
 			<li>
-				<Link to="/construction">Construction</Link>
+				<Link to="/category/construction">Construction</Link>
 			</li>
 			<li>
-				<Link to="/services">Services</Link>
+				<Link to="/category/services">Services</Link>
 			</li>
 			<li>
-				<Link to="/jobs">Jobs</Link>
+				<Link to="/category/jobs">Jobs</Link>
 			</li>
 			<li>
-				<Link to="/others">Others</Link>
+				<Link to="/category/others">Others</Link>
 			</li>
 		</ul>
 	</div>
