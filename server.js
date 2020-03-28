@@ -17,6 +17,7 @@ const PORT = process.env.PORT || 5000;
 
 // Init Middleware
 app.use(express.json({ extended: false }));
+
 // parse application/json
 app.use(bodyParser.json({ extended: false}))
 
