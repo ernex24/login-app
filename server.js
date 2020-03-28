@@ -11,7 +11,10 @@ const profileRouter = require('./routes/profile')
 const adRouter = require('./routes/ad')
 
 
-const app = express()
+const app = express();
+
+const PORT = process.env.PORT || 8080;
+
 // Init Middleware
 app.use(express.json({ extended: false }));
 // parse application/json
@@ -21,4 +24,8 @@ app.use('/api', userRouter)
 app.use('/api/profile', profileRouter)
 app.use('/api/ad', adRouter)
 
-app.listen(process.env.PORT, () => console.log(`Example app listening on port ${process.env.PORT}!`))
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'))
+}
+
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
