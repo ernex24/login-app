@@ -269,10 +269,11 @@ router.put('/unlike/:id', auth, async (req, res) => {
 // @access   Public
 router.get('/search/:query', async (req, res) => {
 	try {
-		const ads = await Ad.find({$text: {$search: req.params.query}})
-		.populate('user', [ 'name', 'email' ]);
-		console.log('console');
+		const ads = await Ad.find({title: {$regex: new RegExp(req.params.query)}})
+		.populate('user', [ 'name', 'email' ])
+		.sort({title:1})
 		res.json(ads);
+		console.log(ads);
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');
