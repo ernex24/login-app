@@ -2,13 +2,13 @@ import React, { Fragment, useState, use } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
-import { useGoogleLogin } from 'react-google-login'
+// import { useGoogleLogin } from 'react-google-login'
 
 const Login = (props) => {
 
-	const responseGoogle = (response) => {
-		console.log(response);
-	  }
+	// const responseGoogle = (response) => {
+	// 	console.log(response);
+	//   }
 
 	const [ formData, setFormData ] = useState({
 		email: '',
@@ -56,13 +56,13 @@ const Login = (props) => {
 		<Fragment>
 			<form className="login_container" onSubmit={(e) => onSubmit(e)}>
 
-			 <GoogleLogin
+			 {/* <GoogleLogin
 					clientId="114087787058-9hmhids9jfrk2t17hkd71g36d4l7o6k4.apps.googleusercontent.com"
 					buttonText="Login with Google"
 					onSuccess={responseGoogle}
 					onFailure={responseGoogle}
 					cookiePolicy={'single_host_origin'}
-				/>
+				/> */}
 
 				<label className="input_labels">Name:</label>
 				<input
