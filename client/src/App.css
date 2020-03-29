@@ -510,7 +510,7 @@ a {
 	height: 400px;
 	width: -moz-fit-content;
 	width: 220px;
-	border-radius: 10px;
+	border-radius: 0;
 	filter: var(--shadow-main);
 }
 
@@ -522,7 +522,7 @@ a {
 	height: fit-content;
 	height: 500px;
 	width: 800px;
-	border-radius: 10px;
+	border-radius: 0;
 	filter: var(--shadow-main);
 	display: flex;
 }
@@ -531,7 +531,7 @@ a {
 	max-height: 220px;
 	max-width: 220px;
 	overflow: hidden;
-	border-radius: 10px;
+	border-radius: 0;
 	filter: var(--shadow-main);
 }
 
@@ -574,7 +574,7 @@ a {
 	background-color: var(--color-secondary);
 	color: var(--color-secondary-contrast);
 	width: fit-content;
-	border-radius: 20px;
+	border-radius: 0;
 	padding: 0 10px;
 	margin: 10px 0;
 }
@@ -691,7 +691,7 @@ a {
 	height: 28px;
 	width: 400px;
 	margin: 0 10px;
-	border-radius: 8px;
+	border-radius: 0;
 	border: 1px solid var(--color-lowcontrast);
 	padding: 10px;
 }
@@ -706,7 +706,7 @@ a {
 ._input_login {
 	height: 28px;
 	margin: 10px 0;
-	border-radius: 8px;
+	border-radius: 0;
 	border: 1px solid var(--color-lowcontrast);
 	background: var(--color-contrast);
 	padding: 10px;
@@ -715,7 +715,7 @@ a {
 ._select_login {
 	height: 50px;
 	margin: 10px 0;
-	border-radius: 8px;
+	border-radius: 0;
 	border: 1px solid var(--color-lowcontrast);
 	background: var(--color-contrast);
 	padding: 10px;
@@ -732,7 +732,7 @@ input:focus {
 	align-items: center;
 	height: 44px;
 	margin: 10px 0;
-	border-radius: 8px;
+	border-radius: 0;
 	background-color: var(--color-secondary);
 	border: 1px solid var(--color-secondary);
 	color: var(--color-secondary-contrast);
@@ -747,7 +747,7 @@ input:focus {
 	align-items: center;
 	height: 44px;
 	margin: 10px 0;
-	border-radius: 8px;
+	border-radius: 0;
 	background-color: var(--color-contrast);
 	border: 0;
 	color: var(--color-secondary-contrast);
@@ -794,7 +794,7 @@ input:focus {
 	background: var(--color-contrast);
 	position: relative;
 	margin: 70px auto;
-	border-radius: 10px;
+	border-radius: 0;
 	max-width: 500px;
 	padding: 20px;
 }
@@ -838,7 +838,7 @@ input:focus {
 	width: 50%;
 	padding: 10px 60px 60px 60px;
 	margin: 20px;
-	border-radius: 20px;
+	border-radius: 0;
 }
 
 .profile_image {
