@@ -512,6 +512,7 @@ a {
 	width: 220px;
 	border-radius: 0;
 	filter: var(--shadow-main);
+	overflow: hidden;
 }
 
 .card_container_ad {
