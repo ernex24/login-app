@@ -1,7 +1,7 @@
 import React, { Fragment, useState, use } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import GoogleLogin from 'react-google-login';
+
 // import { useGoogleLogin } from 'react-google-login'
 
 const Login = (props) => {
