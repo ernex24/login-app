@@ -545,7 +545,7 @@ a {
 }
 
 .card_description {
-	padding: 20px;
+	padding: 0 20px;
 	max-width: 180px;
 	top: -30px;
 }
