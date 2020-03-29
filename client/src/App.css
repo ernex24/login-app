@@ -539,7 +539,7 @@ a {
 	height: auto;
 	width: 100%;
 	overflow: hidden;
-	border-radius: 10px;
+	border-radius: 0;
 	filter: var(--shadow-main);
 }
 
@@ -630,6 +630,7 @@ a {
 
 .cta_category {
 	font-size: var(--font-size-xl);
+		margin: 16px 0px 0px 0px;
 }
 
 .header_logo {
