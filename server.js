@@ -19,6 +19,7 @@ const PORT = process.env.PORT || 5000;
 // Init Middleware
 app.use(express.json({ extended: false }));
 
+app.use('/uploads', express.static('uploads'))
 // parse application/json
 app.use(bodyParser.json({ extended: false}))
 

@@ -11,6 +11,7 @@ import Myads from './MyAds';
 const Profile = (props) => {
 	const [ token, setToken ] = useState();
 	const [ profile, setProfile ] = useState();
+	const [ profilePic, setProfilePic ] = useState();
 	const [ profileExist, setProfileExist ] = useState(false);
 	const [ formData, setFormData ] = useState({
 		email: '',
@@ -93,6 +94,16 @@ const Profile = (props) => {
 		}
 	};
 
+	const fileSelectedHandler = event => {
+		const pic = event.target.files[0]
+		console.log(pic)
+		setProfilePic(pic)
+	}
+
+	const fileUploadHandler = event => {
+		console.log('')
+	}
+
 	return (
 		<Fragment>
 			<div>
@@ -113,6 +124,8 @@ const Profile = (props) => {
 									<div className="profile_image">
 										<label className="input_labels">Profile picture:</label>
 										<img className="round-profile-image" src={profile ? profile.image : profile} />
+										<input type="file" onChange={fileSelectedHandler}/>
+										<button onClick={fileUploadHandler}>Upload</button>
 									</div>
 
 									<div className="profile_image">
