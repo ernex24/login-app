@@ -94,15 +94,15 @@ const Profile = (props) => {
 		}
 	};
 
-	const fileSelectedHandler = event => {
-		const pic = event.target.files[0]
-		console.log(pic)
-		setProfilePic(pic)
-	}
+	// const fileSelectedHandler = event => {
+	// 	const pic = event.target.files[0]
+	// 	console.log(pic)
+	// 	setProfilePic(pic)
+	// }
 
-	const fileUploadHandler = event => {
-		console.log('')
-	}
+	// const fileUploadHandler = event => {
+	// 	console.log('')
+	// }
 
 	return (
 		<Fragment>
@@ -124,8 +124,13 @@ const Profile = (props) => {
 									<div className="profile_image">
 										<label className="input_labels">Profile picture:</label>
 										<img className="round-profile-image" src={profile ? profile.image : profile} />
-										<input type="file" onChange={fileSelectedHandler}/>
-										<button onClick={fileUploadHandler}>Upload</button>
+										<input 
+										className="_input_button-primary"
+										value={image}
+										onChange={(e) => onChange(e)}
+										type="file" 
+										name="image"
+										/>
 									</div>
 
 									<div className="profile_image">
