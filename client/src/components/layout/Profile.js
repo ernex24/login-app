@@ -15,6 +15,7 @@ const Profile = (props) => {
 	const [profileImage, setProfileImage] = useState();
 	const [profileImageName, setProfileImageName] = useState();
 	const [profileImagePreview, setProfileImagePreview] = useState();
+	const [ updateProfile, setUpdateProfile ] = useState();
 	const [profileExist, setProfileExist] = useState(false);
 	const [formData, setFormData] = useState({
 		email: '',
@@ -102,6 +103,7 @@ const Profile = (props) => {
 			console.log(res);
 			if (res.status === 200) {
 				console.log('Profile Created');
+				setUpdateProfile(true)
 			}
 		} catch (err) {
 			if (err) {
@@ -109,6 +111,10 @@ const Profile = (props) => {
 			}
 		}
 	};
+
+	if (updateProfile === true) {
+		return <Redirect to={`/`}/>;
+	}
 
 	return (
 		<Fragment>
@@ -129,7 +135,7 @@ const Profile = (props) => {
 								<form className="login_container" onSubmit={(e) => onSubmit(e)}>
 									<div className="profile_image">
 										<label className="input_labels">Profile picture:</label>
-										
+
 										{ profileImagePreview ? <img className="round-profile-image" src={profileImagePreview} /> : <img className="round-profile-image" src={profile ? profile.image : profile} /> }
 										
 										{profileImageName}
