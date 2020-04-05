@@ -32,16 +32,16 @@ const AdSchema = new mongoose.Schema({
 	description: {
 		type: String
 	},
+	image: {
+		type: String
+	},
 	image1: {
 		type: String
 	},
 	image2: {
 		type: String
-	},
-	image3: {
-		type: String
     },
-    image4: {
+    image3: {
 		type: String
 	},
 	likes: [

@@ -40,7 +40,7 @@ const Landing = ({ match }) => {
 							</Moment>
 						</div>
 					</div>
-					<img className="card_image_ad" src={adData.image1} />
+					<img className="card_image_ad" src={'/' + adData.image} />
 					{/* <ul className="card_categorys_ad">
 						<li ><Link to={`/category/${adData.category}`}>{adData.category}    ></Link></li>
 						<li><div>{adData.subcategory}</div></li>

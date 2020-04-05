@@ -129,6 +129,7 @@ const Profile = (props) => {
 								<form className="login_container" onSubmit={(e) => onSubmit(e)}>
 									<div className="profile_image">
 										<label className="input_labels">Profile picture:</label>
+										
 										{ profileImagePreview ? <img className="round-profile-image" src={profileImagePreview} /> : <img className="round-profile-image" src={profile ? profile.image : profile} /> }
 										
 										{profileImageName}

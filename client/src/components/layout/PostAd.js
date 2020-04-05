@@ -10,6 +10,9 @@ const PostAd = ({ match }) => {
 	const [ profile, setProfile ] = useState();
 	const [ postAd, setPostAd ] = useState();
 	const [ postId, setPostId ] = useState();
+	const [adImage, setAdImage] = useState();
+	const [adImageName, setAdImageName] = useState();
+	const [adImagePreview, setAdImagePreview] = useState();
 	const [ formData, setFormData ] = useState({
 		category: '',
 		subcategory: '',
@@ -20,10 +23,7 @@ const PostAd = ({ match }) => {
 		price: '',
 		currency: '',
 		description: '',
-		image1: 'https://picsum.photos/300/300',
-		image2: 'https://picsum.photos/300/300',
-		image3: 'https://picsum.photos/300/300',
-		image4: 'https://picsum.photos/300/300'
+		image: ''
 	});
 
 	const {
@@ -36,10 +36,7 @@ const PostAd = ({ match }) => {
 		price,
 		currency,
 		description,
-		image1,
-		image2,
-		image3,
-		image4
+		image
 	} = formData;
 
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -71,29 +68,38 @@ const PostAd = ({ match }) => {
 		return <Redirect to="/" />;
 	}
 
+	const onChangeImage = (e) => {
+		setAdImage(e.target.files[0]);
+		setAdImageName(e.target.files[0].name);
+
+		const preview = e.target.files[0]
+		var reader = new FileReader();
+		var url = reader.readAsDataURL(preview);
+
+		reader.onloadend = function (e) {
+			setAdImagePreview(reader.result)
+		}
+
+	}
+
 	const onSubmit = async (e) => {
 		e.preventDefault();
-		const newAd = {
-			category,
-			subcategory,
-			brand,
-			model,
-			year,
-			title,
-			price,
-			currency,
-			description,
-			image1,
-			image2,
-			image3,
-			image4
-		};
+		var formDataT = new FormData();
+		formDataT.append("image", adImage, adImageName)
+		formDataT.append("category", category)
+		formDataT.append("subcategory", subcategory)
+		formDataT.append("brand", brand)
+		formDataT.append("model", model)
+		formDataT.append("year", year)
+		formDataT.append("title", title)
+		formDataT.append("price", price)
+		formDataT.append("currency", currency)
+		formDataT.append("description", description)
 		try {
 			const config = {
 				headers: { 'Content-Type': 'application/json', 'X-Auth-Token': token }
 			};
-			const body = JSON.stringify(newAd);
-			const res = await axios.post('/api/ad', body, config);
+			const res = await axios.post('/api/ad', formDataT, config);
 			console.log(res);
 			if (res.status === 200) {
 				setPostId(res);
@@ -119,8 +125,18 @@ const PostAd = ({ match }) => {
 					<div className="card_profile">
 						<div className="card_description_title"> What are you are going to sell today?</div>
 						<form className="login_container" onSubmit={(e) => onSubmit(e)}>
+
+						<img className="round-profile-image" src={adImagePreview} />				
+						{adImageName}
+						<input
+							className="_input_button-primary"
+							value={image}
+							onChange={(e) => onChangeImage(e)}
+							type="file"
+							name="image"
+						/>
+
 							<label className="input_labels">Category:</label>
-							
                             <select className="_select_login" name="category" value={category} onChange={(e) => onChange(e)}>
 								<option value="cars">Select Category</option>
 								<option value="bikes">Bikes</option>
@@ -135,9 +151,8 @@ const PostAd = ({ match }) => {
 
                             <label className="input_labels">Sub category:</label>
 							<select className="_select_login" name="subcategory"  value={subcategory} onChange={(e) => onChange(e)}>
-								<option value="option1">Option 1</option>
-								<option value="option2">Option 2</option>
-								<option value="option3">Option 3</option>
+								<option value="option1">New</option>
+								<option value="option2">Used</option>
 							</select>
 
 							<label className="input_labels">Brand:</label>

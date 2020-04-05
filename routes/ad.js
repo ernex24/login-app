@@ -7,6 +7,31 @@ const Ad = require('../model/ad.js');
 const Profile = require('../model/profile.js');
 const User = require('../model/user.js');
 
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, './uploads/')
+	},
+	filename: function (req, file, cb) {
+		cb(null, new Date().toISOString() + file.originalname)
+	}
+});
+
+const fileFilter = (req, file, cb) => {
+	if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+		cb(null, true);
+	} else {
+		cb(null, false);
+	}
+}
+
+const upload = multer({
+	storage: storage,
+	limits: { fileSize: 1024 * 1024 * 5 },
+	fileFilter: fileFilter
+});
+
 // @route    POST api/ad
 // @desc     Create an ad
 // @access   Private
@@ -14,6 +39,7 @@ router.post(
 	'/',
 	[
 		auth,
+		upload.single('image'),
 		[
 			check('category', 'Category is required').not().isEmpty(),
 			check('title', 'Title is required').not().isEmpty(),
@@ -23,6 +49,7 @@ router.post(
 		]
 	],
 	async (req, res) => {
+		console.log(req.file);
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() });
@@ -41,14 +68,11 @@ router.post(
 				currency: req.body.currency,
 				description: req.body.description,
 				user: req.user.id,
-				image1: req.body.image1,
-				image2: req.body.image2,
-				image3: req.body.image3,
-				image4: req.body.image4
+				image: req.file.path,
 			});
 
 			const ad = await newAd.save();
-
+			
 			res.json(ad);
 		} catch (err) {
 			console.error(err.message);
@@ -89,8 +113,8 @@ router.get('/all/me', auth, async (req, res) => {
 router.get('/all/older', async (req, res) => {
 	try {
 		const ads = await Ad.find()
-			.populate('user', [ 'name', 'email' ])
-			.populate('profile', [ 'phone' ])
+			.populate('user', ['name', 'email'])
+			.populate('profile', ['phone'])
 			.sort({ date: 1 });
 		res.json(ads);
 	} catch (err) {
@@ -105,8 +129,8 @@ router.get('/all/older', async (req, res) => {
 router.get('/:category', async (req, res) => {
 	try {
 		const ads = await Ad.find({ category: req.params.category })
-			.populate('user', [ 'name', 'email' ])
-			.populate('profile', [ 'phone' ])
+			.populate('user', ['name', 'email'])
+			.populate('profile', ['phone'])
 			.sort({ date: -1 });
 		res.json(ads);
 	} catch (err) {
@@ -121,8 +145,8 @@ router.get('/:category', async (req, res) => {
 router.get('/all/expensive', async (req, res) => {
 	try {
 		const ads = await Ad.find()
-			.populate('user', [ 'name', 'email' ])
-			.populate('profile', [ 'phone' ])
+			.populate('user', ['name', 'email'])
+			.populate('profile', ['phone'])
 			.sort({ price: 'descending' });
 		res.json(ads);
 	} catch (err) {
@@ -137,8 +161,8 @@ router.get('/all/expensive', async (req, res) => {
 router.get('/:category/older', async (req, res) => {
 	try {
 		const ads = await Ad.find({ category: req.params.category })
-			.populate('user', [ 'name', 'email' ])
-			.populate('profile', [ 'phone' ])
+			.populate('user', ['name', 'email'])
+			.populate('profile', ['phone'])
 			.sort({ date: 1 });
 		res.json(ads);
 	} catch (err) {
@@ -152,7 +176,7 @@ router.get('/:category/older', async (req, res) => {
 // @access   Private
 router.get('/find/:id', async (req, res) => {
 	try {
-		const ads = await Ad.findById(req.params.id).populate('user', [ 'name', 'email' ]);
+		const ads = await Ad.findById(req.params.id).populate('user', ['name', 'email']);
 		console.log(req.params.id);
 		// Check for ObjectId format and post
 		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !ads) {
@@ -170,15 +194,15 @@ router.get('/find/:id', async (req, res) => {
 // @access   Private
 router.get('/find/user/:user_id', auth, async (req, res) => {
 	try {
-    const ads = await Ad.find({
-      user: req.params.user_id
-    }).populate('user', '-password').sort({ date: -1 });;
+		const ads = await Ad.find({
+			user: req.params.user_id
+		}).populate('user', '-password').sort({ date: -1 });;
 
-    console.log(req.params.id);
-    console.log(req.user.id);
-    
+		console.log(req.params.id);
+		console.log(req.user.id);
+
 		// Check for ObjectId format and post
-    if (!ads) return res.status(400).json({ msg: 'Profile not found' });
+		if (!ads) return res.status(400).json({ msg: 'Profile not found' });
 
 		res.json(ads);
 	} catch (err) {
@@ -269,9 +293,9 @@ router.put('/unlike/:id', auth, async (req, res) => {
 // @access   Public
 router.get('/search/:query', async (req, res) => {
 	try {
-		const ads = await Ad.find({title: {$regex: new RegExp(req.params.query)}})
-		.populate('user', [ 'name', 'email' ])
-		.sort({title:1})
+		const ads = await Ad.find({ title: { $regex: new RegExp(req.params.query) } })
+			.populate('user', ['name', 'email'])
+			.sort({ title: 1 })
 		res.json(ads);
 		console.log(ads);
 	} catch (err) {

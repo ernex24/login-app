@@ -36,7 +36,7 @@ const Myads = (props) => {
 							key={key._id}
 							onClick={() => history.push(`/ad/${key._id}`)}
 						>
-							<img className="card_image" src={key.image1} />
+							<img className="card_image" src={key.image} />
 							<div className="card_description">
 								<div className="card_description_title">{key.title}</div>
 								<div className="card_description_price">
