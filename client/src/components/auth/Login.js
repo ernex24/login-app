@@ -54,7 +54,8 @@ const Login = (props) => {
 	  }
 
 	  const responseGoogle = (response) => {
-		  console.log(response)
+		console.log(response.id_token)
+		setToken(response.id_token)
 		setUserDetails(response.profileObj);
 		setLogin(true);
 	  }
