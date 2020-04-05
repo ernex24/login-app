@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link, Redirect } from 'react-router-dom';
+import { useParams,  useLocation } from "react-router";
 import axios from 'axios';
 import jwtdecode from 'jwt-decode';
 import { withRouter } from 'react-router-dom';
@@ -28,6 +29,8 @@ const Profile = (props) => {
 	const { email, password, image, bio, country, city, postalcode, phone } = formData;
 
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+	let location = useLocation();
 
 	const onChangeImage = (e) => {
 		setProfileImage(e.target.files[0]);

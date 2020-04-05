@@ -37,7 +37,7 @@ const Modal = ({ isShowing, hide }) =>
 										<Login isShowing={isShowing} hide={hide} />
 									</Tabs.Tab>
 									<Tabs.Tab id="tab2" title="Register">
-										<Register />
+										<Register isShowing={isShowing} hide={hide}/>
 									</Tabs.Tab>
 								</Tabs>
 								</div>
