@@ -2,19 +2,20 @@ import React, { Fragment, useState, use } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-// import { useGoogleLogin } from 'react-google-login'
+import { GoogleLogin } from 'react-google-login';
+import { GoogleLogout } from "react-google-login";
+
 
 const Login = (props) => {
 
-	// const responseGoogle = (response) => {
-	// 	console.log(response);
-	//   }
+
 
 	const [ formData, setFormData ] = useState({
 		email: '',
 		password: ''
 	});
 	const [ error, setError ] = useState();
+	const [ userDetails, setUserDetails ] = useState();
 	const [ token, setToken ] = useState();
 	const [ login, setLogin ] = useState(false);
 	const { email, password } = formData;
@@ -52,17 +53,49 @@ const Login = (props) => {
 		return <Redirect to="/profile" />;
 	  }
 
+	  const responseGoogle = (response) => {
+		setUserDetails(response.profileObj);
+		setLogin(true);
+	  }
+
+	  const logout = () => {
+		setLogin(false);
+	  };
+
 	return (
 		<Fragment>
+			
 			<form className="login_container" onSubmit={(e) => onSubmit(e)}>
 
-			 {/* <GoogleLogin
-					clientId="114087787058-9hmhids9jfrk2t17hkd71g36d4l7o6k4.apps.googleusercontent.com"
-					buttonText="Login with Google"
-					onSuccess={responseGoogle}
-					onFailure={responseGoogle}
-					cookiePolicy={'single_host_origin'}
-				/> */}
+			  {!login && (
+          			<GoogleLogin
+            			clientId="21121501733-m3uhml2th59ec4gvpa5fj2vels97g5lt.apps.googleusercontent.com" 
+            			render={renderProps => (
+						<button
+							className="button"
+							onClick={renderProps.onClick}
+							disabled={renderProps.disabled}
+						>
+							Log in with Google
+						</button>
+            		)}
+						onSuccess={responseGoogle}
+						onFailure={responseGoogle}
+          			/>
+        			)}
+        			{login && (
+							<GoogleLogout
+								render={renderProps => (
+								<button
+									className="logout-button"
+									onClick={renderProps.onClick}
+								>
+                    			Log Out
+                  				</button>
+               		 		)}
+                			onLogoutSuccess={logout}
+              				/>
+					)}
 
 				<label className="input_labels">Name:</label>
 				<input
