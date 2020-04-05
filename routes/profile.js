@@ -39,27 +39,12 @@ router.post(
 	'/',
 	[
 		auth
-		// [
-		//   check('country', 'Country is required')
-		//     .not()
-		//     .isEmpty(),
-		//   check('city', 'City is required')
-		//     .not()
-		//     .isEmpty(),
-		//     check('phone', 'Phone is required')
-		//     .not()
-		//     .isEmpty()
-		// ]
 	],
 	upload.single('image'),
 	async (req, res) => {
 		console.log(req.file);
-		// const errors = validationResult(req);
-		// if (!errors.isEmpty()) {
-		//   return res.status(400).json({ errors: errors.array() });
-		// }
 
-		const { country, city, postalcode, bio, phone, facebook, twitter, instagram, linkedin } = req.body;
+		const { image, country, city, postalcode, bio, phone, facebook, twitter, instagram, linkedin } = req.body;
 
 		// Build profile object
 		const profileFields = {};
@@ -84,8 +69,8 @@ router.post(
 				{ user: req.user.id },
 				{ $set: profileFields },
 				{ new: true, upsert: true }
-			);
-			res.json(profile);
+      );
+      res.json(profile);
 		} catch (err) {
 			console.error(err.message);
 			res.status(500).send('Server Error');

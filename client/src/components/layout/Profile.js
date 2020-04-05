@@ -9,14 +9,14 @@ import Modal from './Modal';
 import Myads from './MyAds';
 
 const Profile = (props) => {
-	const [ token, setToken ] = useState();
-	const [ profile, setProfile ] = useState();
-	const [ profilePic, setProfilePic ] = useState();
-	const [ profileExist, setProfileExist ] = useState(false);
-	const [ formData, setFormData ] = useState({
+	const [token, setToken] = useState();
+	const [profile, setProfile] = useState();
+	const [profileImage, setProfileImage] = useState();
+	const [profileImageName, setProfileImageName] = useState();
+	const [profileExist, setProfileExist] = useState(false);
+	const [formData, setFormData] = useState({
 		email: '',
 		image: '',
-		name: '',
 		email: '',
 		bio: '',
 		country: '',
@@ -24,8 +24,14 @@ const Profile = (props) => {
 		postalcode: '',
 		phone: ''
 	});
-	const { email, password, image, name, bio, country, city, postalcode, phone } = formData;
+	const { email, password, image, bio, country, city, postalcode, phone } = formData;
+
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+	const onChangeImage = (e) => {
+		setProfileImage(e.target.files[0]);
+		setProfileImageName(e.target.files[0].name);
+	}
 
 	useEffect(() => {
 		getUser();
@@ -47,7 +53,7 @@ const Profile = (props) => {
 							if (res.data.length != 0) {
 								setProfileExist(true);
 							}
-							// console.log(res.data);
+							console.log(res.data);
 						}
 					});
 				} else if (!getToken) {
@@ -67,22 +73,20 @@ const Profile = (props) => {
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
-		const profile = {
-			image,
-			name,
-			email,
-			bio,
-			country,
-			city,
-			postalcode,
-			phone
-		};
+		var formDataT = new FormData();
+		formDataT.append("image", profileImage, profileImageName)
+		formDataT.append("email", email)
+		formDataT.append("bio", bio)
+		formDataT.append("country", country)
+		formDataT.append("city", city)
+		formDataT.append("postalcode", postalcode)
+		formDataT.append("phone", phone)
 		try {
 			const config = {
 				headers: { 'Content-Type': 'application/json', 'X-Auth-Token': token }
 			};
-			const body = JSON.stringify(profile);
-			const res = await axios.post('/api/profile', body, config);
+			const body = JSON.stringify(formDataT);
+			const res = await axios.post('/api/profile', formDataT, config);
 			console.log(res);
 			if (res.status === 200) {
 				console.log('Profile Created');
@@ -94,16 +98,6 @@ const Profile = (props) => {
 		}
 	};
 
-	// const fileSelectedHandler = event => {
-	// 	const pic = event.target.files[0]
-	// 	console.log(pic)
-	// 	setProfilePic(pic)
-	// }
-
-	// const fileUploadHandler = event => {
-	// 	console.log('')
-	// }
-
 	return (
 		<Fragment>
 			<div>
@@ -111,7 +105,7 @@ const Profile = (props) => {
 					<div className="card_profile">
 						<Tabs activeTab={{ id: 'tab1' }}>
 							<Tabs.Tab id="tab1" title="My Profile">
-								{ profileExist ? 
+								{profileExist ?
 									<div className="card_description_title">
 										Hi, {profile ? profile.user.name : profile} This is your personal profile
 									</div>
@@ -124,12 +118,12 @@ const Profile = (props) => {
 									<div className="profile_image">
 										<label className="input_labels">Profile picture:</label>
 										<img className="round-profile-image" src={profile ? profile.image : profile} />
-										<input 
-										className="_input_button-primary"
-										value={image}
-										onChange={(e) => onChange(e)}
-										type="file" 
-										name="image"
+										<input
+											className="_input_button-primary"
+											value={image}
+											onChange={(e) => onChangeImage(e)}
+											type="file"
+											name="image"
 										/>
 									</div>
 
@@ -138,15 +132,11 @@ const Profile = (props) => {
 										{profile ? profile.user.email : profile}
 									</div>
 
-									<label className="input_labels">Name:</label>
-									<input
-										className="_input_login"
-										type="text"
-										value={name}
-										onChange={(e) => onChange(e)}
-										placeholder={profile ? profile.user.name : profile}
-										name="name"
-									/>
+									<div className="profile_image">
+										<label className="input_labels">Name:</label>
+										{profile ? profile.user.name : profile}
+									</div>
+
 									<label className="input_labels">Bio:</label>
 									<input
 										className="_input_login"
