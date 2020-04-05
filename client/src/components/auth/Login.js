@@ -54,6 +54,7 @@ const Login = (props) => {
 	  }
 
 	  const responseGoogle = (response) => {
+		  console.log(response)
 		setUserDetails(response.profileObj);
 		setLogin(true);
 	  }
@@ -70,29 +71,12 @@ const Login = (props) => {
 			  {!login && (
           			<GoogleLogin
             			clientId="21121501733-m3uhml2th59ec4gvpa5fj2vels97g5lt.apps.googleusercontent.com" 
-            			render={renderProps => (
-						<button
-							className="button"
-							onClick={renderProps.onClick}
-							disabled={renderProps.disabled}
-						>
-							Log in with Google
-						</button>
-            		)}
-						onSuccess={responseGoogle}
-						onFailure={responseGoogle}
+							onSuccess={responseGoogle}
+							onFailure={responseGoogle}
           			/>
         			)}
         			{login && (
 							<GoogleLogout
-								render={renderProps => (
-								<button
-									className="logout-button"
-									onClick={renderProps.onClick}
-								>
-                    			Log Out
-                  				</button>
-               		 		)}
                 			onLogoutSuccess={logout}
               				/>
 					)}
