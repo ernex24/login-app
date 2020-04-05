@@ -13,6 +13,7 @@ const Profile = (props) => {
 	const [profile, setProfile] = useState();
 	const [profileImage, setProfileImage] = useState();
 	const [profileImageName, setProfileImageName] = useState();
+	const [profileImagePreview, setProfileImagePreview] = useState();
 	const [profileExist, setProfileExist] = useState(false);
 	const [formData, setFormData] = useState({
 		email: '',
@@ -31,6 +32,14 @@ const Profile = (props) => {
 	const onChangeImage = (e) => {
 		setProfileImage(e.target.files[0]);
 		setProfileImageName(e.target.files[0].name);
+		const preview = e.target.files[0]
+		var reader = new FileReader();
+		var url = reader.readAsDataURL(preview);
+
+		reader.onloadend = function (e) {
+			setProfileImagePreview(reader.result)
+		}
+
 	}
 
 	useEffect(() => {
@@ -117,7 +126,9 @@ const Profile = (props) => {
 								<form className="login_container" onSubmit={(e) => onSubmit(e)}>
 									<div className="profile_image">
 										<label className="input_labels">Profile picture:</label>
-										<img className="round-profile-image" src={profile ? profile.image : profile} />
+										{ profileImagePreview ? <img className="round-profile-image" src={profileImagePreview} /> : <img className="round-profile-image" src={profile ? profile.image : profile} /> }
+										
+										{profileImageName}
 										<input
 											className="_input_button-primary"
 											value={image}
